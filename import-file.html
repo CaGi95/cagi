@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/my-style.css">
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/myinclude.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<title>Import - Farm4trade</title>
+<style>
+.inputDnD .form-control-file {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	min-height: 150px;
+	outline: none;
+	visibility: hidden;
+	cursor: pointer;
+	background-color: #F39200;
+	box-shadow: 0 0 5px solid #F39200;
+}
+.inputDnD .form-control-file:before {
+	content: attr(data-title);
+	position: absolute;
+	top: 0.5em;
+	left: 0;
+	width: 100%;
+	min-height: 150px;
+	line-height: 150px;
+	opacity: 1;
+	visibility: visible;
+	text-align: center;
+	border: 0.25em dashed #ccc;
+	overflow: hidden;
+}
+.btn-select-file {
+	background-color: transparent !important;
+	border: 0.25em solid #ccc;
+	color: #333;
+	margin: 0 auto;
+	display: block;
+	margin-top: 30px;
+}
+/*
+.btn-select-file:hover {
+	background-color: #F39200;
+	border: none;
+}
+*/
+.import-btn {
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+}
+.import-btn button {
+	width: 130px;
+}
+.inputDnD .form-control-file:hover:before {
+	border-style: solid;/*	box-shadow: inset 0px 0px 0px 0.25em #ccc;*/
+}
+.drag-drop, .stato-import {
+	padding: 0px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.import-img-box {
+	margin-top: 30px;
+	padding: 15px;/*	background-color: #f2f2f2;*/
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+	color: #75b842;
+	background-color: transparent;
+	border-bottom: 2px solid #75b842;
+	border-radius: 0;
+}
+.nav-pills a {
+	color: #333;
+}
+.nav>li>a {
+	position: relative;
+	display: block;
+	padding: 10px 0px;
+	margin-right: 15px;
+}
+.tab-content {
+	margin-top: 20px;
+}
+.nav-pills>li {
+	float: none;
+}
+/*----------css tabella-------------*/
+	
+table {
+	width: 100%;
+	table-layout: fixed;
+}
+.tbl-header {
+	background-color: #fff;
+}
+.tbl-content {
+	/*	height: 120px;*/
+	overflow-x: auto;
+	margin-top: 0px;/*	border: 1px solid rgba(0,0,0,0.3);*/
+}
+th {
+	padding: 20px 15px;
+	text-align: left;
+	font-weight: 500;
+	font-size: 12px;
+	color: #ccc;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+td {
+	padding: 15px;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: 300;
+	font-size: 12px;
+	color: #333;
+	border-bottom: solid 1px rgba(0,0,0,0.1);
+}
+tbody tr {
+	background-color: #f2f2f2;
+	color: #333;
+}
+#exTab1 ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+}
+#exTab1 li {
+	display: inline;
+}
+#exTab1 a {
+	display: inline-block;
+}
+.select-file {
+	border: 2px solid #ccc;
+	padding: 5px;
+	cursor: pointer;
+	color: #333;
+	border-radius: 3px;
+	margin-right: 8px;
+	font-size: 12px;
+}
+.import-result {
+	box-shadow: 4px 4px 10px #a9a2a2;
+	padding: 15px;
+	margin-top: 50px;
+}
+/* follow me template */
+.made-with-love {
+	margin-top: 40px;
+	padding: 10px;
+	clear: left;
+	text-align: center;
+	font-size: 10px;
+	font-family: arial;
+	color: #333;
+}
+.made-with-love i {
+	font-style: normal;
+	color: #F50057;
+	font-size: 14px;
+	position: relative;
+	top: 2px;
+}
+.made-with-love a {
+	color: #fff;
+	text-decoration: none;
+}
+.made-with-love a:hover {
+	text-decoration: underline;
+}
+
+
+/* for custom scrollbar for webkit browser*/
+/*
+
+::-webkit-scrollbar {
+ width: 6px;
+}
+::-webkit-scrollbar-track {
+ -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+::-webkit-scrollbar-thumb {
+ -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+*/
+</style>
+</head>
+<body>
+<!--INIZIO INCLUZIONE HEADER -->
+<div w3-include-HTML="header1.html"></div>
+<!--FINE INCLUZIONE HEADER -->
+<div class="my-container" style="padding:100px 50px;">
+  <div class="row">
+    <div class="col-sm-12 ">
+      <p class="center">Per <b>Importare</b> i dati relativi ai tuoi animali <b><a href="#0">scarica</a></b> e compila il modello.</p>
+      <div class="col-sm-12 offset-sm-3 drag-drop">
+        <div class="form-group inputDnD">
+          <label class="sr-only" for="inputFile">File Upload</label>
+          <input type="file" class="form-control-file font-weight-bold" id="inputFile" accept="*" onchange="readUrl(this)" data-title="Drag and drop a file">
+        </div>
+        <button type="button" class="btn  btn-select-file" onclick="document.getElementById('inputFile').click()">SELECT FILE</button>
+        <br>
+        </div>
+      <br>
+    </div>
+  </div>
+  <div class="row import-result">
+    <div class="col-md-12">
+      <div id="exTab1">
+        <ul  class="nav nav-pills">
+          <li class="active"> <a  href="#1a" data-toggle="tab">Animali</a> </li>
+          <li><a href="#2a" data-toggle="tab">Pesate</a> </li>
+          <li><a href="#3a" data-toggle="tab">Produzione lattea</a> </li>
+          <li><a href="#4a" data-toggle="tab">Test di gravidanza</a> </li>
+          <li><a href="#5a" data-toggle="tab">Inseminazioni</a> </li>
+        </ul>
+        <div class="tab-content clearfix">
+          <div class="tab-pane active" id="1a">
+            <section> 
+              <!--for demo wrap-->
+              <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <thead>
+                    <tr>
+                      <th>ID NAZIONALE</th>
+                      <th>ID ANIMALE</th>
+                      <th>NOME</th>
+                      <th>DATA</th>
+                      <th>ACCOPPIAMENTO</th>
+                      <th>INSEMINAZIONE ARTIFICIALE</th>
+                      <th>EMBRIONE</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td>5555555</td>
+                      <td>012345 </td>
+                      <td>Caroline</td>
+                      <td>02-03-2013</td>
+                      <td>ok</td>
+                      <td>ok</td>
+                      <td>ok</td>
+                    </tr>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="tab-pane" id="2a">
+            <section> 
+              <!--for demo wrap-->
+              <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <thead>
+                    <tr>
+                      <th>ID NAZIONALE</th>
+                      <th>ID ANIMALE</th>
+                      <th>NOME</th>
+                      <th>DATA</th>
+                      <th>PESO</th>
+                      <th>UNITÀ DI MISURA</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td>5555555</td>
+                      <td>012345 </td>
+                      <td>Caroline</td>
+                      <td>02-03-2013</td>
+                      <td>100</td>
+                      <td>kg</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="tab-pane" id="3a">
+            <section> 
+              <!--for demo wrap-->
+              <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <thead>
+                    <tr>
+                      <th>ID NAZIONALE</th>
+                      <th>ID ANIMALE</th>
+                      <th>NOME</th>
+                      <th>DATA</th>
+                      <th>QUANTITÀ</th>
+                      <th>UNITÀ DI MISURA</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td>5555555</td>
+                      <td>012345 </td>
+                      <td>Caroline</td>
+                      <td>02-03-2013</td>
+                      <td>100</td>
+                      <td>l</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="tab-pane" id="4a">
+            <section> 
+              <!--for demo wrap-->
+              <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <thead>
+                    <tr>
+                      <th>ID NAZIONALE</th>
+                      <th>ID ANIMALE</th>
+                      <th>NOME</th>
+                      <th>DATA</th>
+                      <th>ESECUTORE</th>
+                      <th>TEST DEL SANGUE</th>
+                      <th>PALPAZIONE RETTALE</th>
+                      <th>ULTRASUONI</th>
+                      <th>RISULTATO</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td>5555555</td>
+                      <td>012345 </td>
+                      <td>Caroline</td>
+                      <td>02-03-2013</td>
+                      <td>Giuseppe</td>
+                      <td>ok</td>
+                      <td>ok</td>
+                      <td>ok</td>
+                      <td>ok</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="tab-pane" id="5a">
+            <section> 
+              <!--for demo wrap-->
+              <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <thead>
+                    <tr>
+                      <th>ID NAZIONALE</th>
+                      <th>ID ANIMALE</th>
+                      <th>NOME</th>
+                      <th>DATA</th>
+                      <th>ACCOPPIAMENTO</th>
+                      <th>INSEMINAZIONE ARTIFICIALE</th>
+                      <th>EMBRIONE</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                  <tbody>
+                    <tr>
+                      <td>5555555</td>
+                      <td>012345 </td>
+                      <td>Caroline</td>
+                      <td>02-03-2013</td>
+                      <td>Giuseppe</td>
+                      <td>ok</td>
+                      <td>ok</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div><br>
+<br>
+		<span class="center"> 
+        <!--			<a class="select-file" onclick="document.getElementById('inputFile').click()">SELECT FILE</a>-->
+        <input type="checkbox">
+        Vuoi sovrascrivere i dati agli animali già presenti? </span> 
+		<br>
+      <div class="import-btn">
+        <button type="button" class="btn btn-success btn-import" data-toggle="modal" data-target="#importmodal">IMPORT FILE</button>
+        <button type="reset" class="btn white bg-rosso" data-toggle="modal" data-target="#errormodal">DELETE FILE</button>
+      </div>
+		
+    </div>
+    
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="importmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 center">
+              <h4> <b>Created on:</b> 3 set 2018 <br>
+                <b>Created by:</b> test <br>
+                <b>Name:</b> aa.xlsx <br>
+                <b>Overwrite:</b> Sì <br>
+                <b>Status:</b> Avviato </h4>
+              <i style="font-size: 50px; margin-top: 25px; color: #75B842;" class="fa fa-check-circle"></i> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="errormodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12 center">
+              <h4> <b>Created on:</b> 3 set 2018 <br>
+                <b>Created by:</b> test <br>
+                <b>Name:</b> aa.xlsx <br>
+                <b>Overwrite:</b> Sì <br>
+                <b>Status:</b> Avviato </h4>
+              <i style="font-size: 50px; margin-top: 25px; color: red;" class="fa fa-exclamation-circle"></i> <br>
+              <a>Visualizza errore</a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+  w3.includeHTML();
+</script> 
+<script>
+	function readUrl(input) {
+  
+  if (input.files && input.files[0]) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      let imgData = e.target.result;
+      let imgName = input.files[0].name;
+      input.setAttribute("data-title", imgName);
+      console.log(e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+
+}
+	</script>
+</body>
+</html>
